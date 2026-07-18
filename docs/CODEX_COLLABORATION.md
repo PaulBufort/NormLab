@@ -108,6 +108,12 @@ La fiche a quatre blocs obligatoires et distincts :
 - **Prochaine donnée à recueillir** — mesure réelle qui réduirait le plus
   l’incertitude, sans prétendre qu’elle existe déjà.
 
+Les avertissements obligatoires de non-identifiabilité et de sensibilité sont
+réinsérés localement avec l’origine `system_guardrail` si Sol les omet. Le
+vérificateur rejette toujours une fiche qui ne les contient pas après cette étape :
+une omission du modèle ne peut donc ni masquer la limite, ni faire passer une prose
+non conforme pour un résultat terminé.
+
 ## Trace d’une exécution
 
 Une exécution auditable doit relier :

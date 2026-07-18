@@ -34,6 +34,44 @@ def assign_card_id(card: DecisionCard, result: ExperimentResult) -> DecisionCard
     return card.model_copy(update={"card_id": card_id})
 
 
+def ensure_mandatory_guardrails(
+    card: DecisionCard, result: ExperimentResult
+) -> DecisionCard:
+    """Add mandatory local warnings that Sol may not suppress or omit.
+
+    Added items are explicitly attributed to ``system_guardrail``. If Sol filled
+    every schema slot, its final optional items yield to the mandatory warnings.
+    """
+    limitations = list(card.limitations)
+    visible = " ".join(item.statement.lower() for item in limitations)
+    mandatory: list[DecisionTextItem] = []
+    if "visibil" not in visible or "seuil" not in visible:
+        mandatory.append(
+            DecisionTextItem(
+                statement=(
+                    "La visibilité des usages et le seuil d’adoption ne sont pas "
+                    "identifiables séparément dans ce moteur : une visibilité plus "
+                    "faible peut être équivalente à un seuil effectif plus élevé."
+                ),
+                origin="system_guardrail",
+            )
+        )
+    if result.ranking_is_sensitive and "sensib" not in visible:
+        mandatory.append(
+            DecisionTextItem(
+                statement=(
+                    "Le classement est sensible aux hypothèses testées et ne constitue "
+                    "donc pas un ordre robuste pour une organisation réelle."
+                ),
+                origin="system_guardrail",
+            )
+        )
+    if not mandatory:
+        return card
+    retained = limitations[: 12 - len(mandatory)]
+    return card.model_copy(update={"limitations": retained + mandatory})
+
+
 def verify_decision_card(card: DecisionCard, result: ExperimentResult) -> None:
     if card.protocol_id != result.protocol_id:
         raise ValueError("decision card protocol_id does not match engine result")

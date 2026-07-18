@@ -12,7 +12,11 @@ import os
 from typing import Any, Callable
 
 from . import MODEL_ID
-from .decisions import assign_card_id, verify_decision_card
+from .decisions import (
+    assign_card_id,
+    ensure_mandatory_guardrails,
+    verify_decision_card,
+)
 from .models import (
     DecisionCard,
     ExperimentProtocol,
@@ -185,6 +189,7 @@ class SolClient:
                 "generated_by": "gpt-5.6-sol",
             }
         )
+        card = ensure_mandatory_guardrails(card, result)
         card = assign_card_id(card, result)
         verify_decision_card(card, result)
         updated_trace = trace.model_copy(
