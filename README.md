@@ -48,11 +48,11 @@ export OPENAI_API_KEY="..."
 streamlit run demo/app.py
 ```
 
-Sur la démonstration publique, un juré peut aussi ouvrir la barre latérale et fournir
-sa propre clé de projet pour la durée de sa session. NormLab ne l’écrit dans aucun
-fichier, ne l’inclut dans aucun export et permet de l’effacer avec les résultats de la
-session. Les appels restent facturés au compte associé à la clé fournie. Le mode
-fixture demeure disponible sans clé.
+Sur la démonstration publique, un juré peut aussi ouvrir la section repliable
+« Tester GPT‑5.6 Sol » et fournir sa propre clé de projet pour la durée de sa session.
+NormLab ne l’écrit dans aucun fichier, ne l’inclut dans aucun export et permet de
+l’effacer avec les résultats de la session. Les appels restent facturés au compte
+associé à la clé fournie. Le mode fixture demeure disponible sans clé.
 
 La clé ne doit être ni copiée dans `.env.example`, ni committée, ni affichée dans une
 trace. La cible est l’identifiant explicite `gpt-5.6-sol` avec la Responses API,

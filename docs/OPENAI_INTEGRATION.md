@@ -39,10 +39,10 @@ n’est pas une barrière de sécurité.
 
 La démonstration publique ne requiert aucune clé propriétaire dans les secrets de
 déploiement. Un testeur peut saisir une clé de projet dans un champ `password` de la
-barre latérale. Elle reste dans l’état mémoire de sa session Streamlit, est transmise
-uniquement au client OpenAI, n’est ni écrite sur disque ni incluse dans les exports,
-et peut être effacée avec tous les artefacts de session. Les appels sont facturés au
-compte associé à cette clé.
+section repliable « Tester GPT‑5.6 Sol ». Elle reste dans l’état mémoire de sa session
+Streamlit, est transmise uniquement au client OpenAI, n’est ni écrite sur disque ni
+incluse dans les exports, et peut être effacée avec tous les artefacts de session. Les
+appels sont facturés au compte associé à cette clé.
 
 En absence de clé temporaire ou de `OPENAI_API_KEY` local, l’interface utilise
 `design_offline_protocol` et `build_offline_decision_card`. Les deux sont
@@ -52,7 +52,7 @@ Sol. Ce mode permet les tests, la CI et un parcours complet sans réseau.
 ## Smoke test réel
 
 En local, une clé peut être fournie par l’environnement. Sur la démonstration
-publique, le testeur la saisit temporairement dans la barre latérale. Lancer ensuite :
+publique, le testeur la saisit temporairement dans cette section. Lancer ensuite :
 
 ```bash
 streamlit run demo/app.py

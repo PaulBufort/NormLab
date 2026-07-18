@@ -23,8 +23,8 @@
 1. Sur Streamlit Community Cloud, créer une application depuis le dépôt NormLab.
 2. Choisir la branche candidate et `demo/app.py` comme main file.
 3. Ne pas configurer de clé propriétaire dans les secrets de l’application. Pour un
-   smoke test Sol, le testeur ouvre la barre latérale et fournit une clé de projet
-   temporaire, facturée à son propre compte.
+   smoke test Sol, le testeur ouvre la section repliable « Tester GPT‑5.6 Sol » et
+   fournit une clé de projet temporaire, facturée à son propre compte.
 4. Déployer, attendre un démarrage propre puis noter l’URL dans le README et dans le
    journal de `BUILD_WEEK.md` avec date, commit et résultat du smoke test.
 

@@ -123,8 +123,7 @@ def _pct(value: float) -> str:
 if "session_identifier" not in st.session_state:
     st.session_state.session_identifier = str(uuid.uuid4())
 
-with st.sidebar:
-    st.subheader("Tester GPT‑5.6 Sol")
+with st.expander("Tester GPT‑5.6 Sol avec une clé temporaire", expanded=False):
     st.caption(
         "Facultatif : utilisez une clé API de projet. Elle reste dans cette session "
         "et n’est ni enregistrée par NormLab, ni incluse dans les exports."
@@ -217,8 +216,8 @@ if package is not None:
     if package.generated_by == "offline_fixture":
         st.warning(
             "Mode hors ligne : ce protocole provient d’une fixture déterministe, pas de Sol. "
-            "Pour une expérience en direct, ouvrez la barre latérale et fournissez "
-            "temporairement une clé API OpenAI."
+            "Pour une expérience en direct, ouvrez la section « Tester GPT‑5.6 Sol » "
+            "en haut de la page et fournissez temporairement une clé API OpenAI."
         )
 
     tabs = st.tabs(["Tous les champs", "Fourni par vous", "Hypothèses", "Défauts"])
