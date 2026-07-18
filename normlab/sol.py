@@ -169,7 +169,10 @@ class SolClient:
             instructions=DECISION_INSTRUCTIONS,
             input=continuation,
             text_format=DecisionCard,
-            max_output_tokens=5000,
+            # Structured output can be incomplete when the output cap is reached.
+            # The prompt bounds the card; this reserve leaves room for Sol's
+            # reasoning tokens and the complete typed response.
+            max_output_tokens=8000,
             safety_identifier=self.safety_identifier,
             store=False,
         )

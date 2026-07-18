@@ -73,6 +73,7 @@ def test_sol_can_only_call_approved_protocol_then_receives_engine_result(protoco
     assert tool_call["tools"][0]["strict"] is True
     assert tool_call["tool_choice"] == {"type": "function", "name": TOOL_NAME}
     continuation = responses.parse_calls[0]["input"]
+    assert responses.parse_calls[0]["max_output_tokens"] == 8000
     output = next(x for x in continuation if isinstance(x, dict))
     compact = json.loads(output["output"])
     assert compact["result_id"] == result.result_id

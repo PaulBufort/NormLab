@@ -8,7 +8,7 @@ from __future__ import annotations
 
 
 DESIGN_PROMPT_VERSION = "design-2026-07-18.v1"
-DECISION_PROMPT_VERSION = "decision-2026-07-18.v1"
+DECISION_PROMPT_VERSION = "decision-2026-07-18.v2"
 
 
 DESIGN_INSTRUCTIONS = """
@@ -64,5 +64,8 @@ Requirements:
 - Keep negative and null results.
 - generated_by must be `gpt-5.6-sol`; protocol_id must match the tool output.
 - The disclaimer must explicitly say the data are synthetic and not a forecast.
+- Be concise: return exactly 3 result items, 3 assumption items, 3 limitation
+  items, and 3 next-data items. Use one short sentence per statement and exactly
+  one evidence reference per result item. Do not reproduce the tool output.
 Return only the typed schema.
 """.strip()
