@@ -35,25 +35,34 @@ de changer l’équation, de cacher broadcast ou une sensibilité, et de fabriqu
 chiffre. Ces interdictions sont doublées par des validations codées ; le prompt seul
 n’est pas une barrière de sécurité.
 
-## Mode hors ligne
+## Clé temporaire du testeur et mode hors ligne
 
-En absence de `OPENAI_API_KEY`, l’interface utilise `design_offline_protocol` et
-`build_offline_decision_card`. Les deux sont déterministes et affichés comme
-`offline_fixture`; aucun texte ne prétend provenir de Sol. Ce mode permet les tests,
-la CI et un parcours complet sans réseau.
+La démonstration publique ne requiert aucune clé propriétaire dans les secrets de
+déploiement. Un testeur peut saisir une clé de projet dans un champ `password` de la
+barre latérale. Elle reste dans l’état mémoire de sa session Streamlit, est transmise
+uniquement au client OpenAI, n’est ni écrite sur disque ni incluse dans les exports,
+et peut être effacée avec tous les artefacts de session. Les appels sont facturés au
+compte associé à cette clé.
+
+En absence de clé temporaire ou de `OPENAI_API_KEY` local, l’interface utilise
+`design_offline_protocol` et `build_offline_decision_card`. Les deux sont
+déterministes et affichés comme `offline_fixture`; aucun texte ne prétend provenir de
+Sol. Ce mode permet les tests, la CI et un parcours complet sans réseau.
 
 ## Smoke test réel
 
-Une clé doit être fournie exclusivement par l’environnement ou le gestionnaire de
-secrets Streamlit. Lancer ensuite :
+En local, une clé peut être fournie par l’environnement. Sur la démonstration
+publique, le testeur la saisit temporairement dans la barre latérale. Lancer ensuite :
 
 ```bash
 streamlit run demo/app.py
 ```
 
-Vérifier que la pastille indique « GPT‑5.6 Sol actif », que la provenance reste
-visible avant le clic d’exécution, que l’outil appelle exactement le protocole
-approuvé et que la trace contient trois identifiants de réponse sans contenu privé.
+Vérifier que la pastille indique « GPT‑5.6 Sol actif — clé temporaire du juré », que
+la provenance reste visible avant le clic d’exécution, que l’outil appelle exactement
+le protocole approuvé et que la trace contient trois identifiants de réponse sans
+contenu privé. Vérifier ensuite que le bouton d’effacement retire la clé et les
+artefacts de la session.
 Le 18 juillet 2026, aucun smoke test réel n’a été exécuté dans cette tâche car aucune
 clé n’était présente ; les doubles de test couvrent le contrat API sans réseau.
 

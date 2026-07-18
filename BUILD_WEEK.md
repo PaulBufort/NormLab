@@ -192,7 +192,10 @@ n’est pas compatible avec le 21 juillet sans réduire les fonctions centrales.
 | 2026-07-18 | Propriétaire | autorisation | Autorisation explicite de créer la branche et le commit `codex/build-week-mvp`, pousser vers `origin`, puis déployer sur Streamlit | Message d’autorisation dans cette tâche Codex ; aucun secret communiqué ni demandé dans le dépôt |
 | 2026-07-18 | Codex, tâche courante | publication | Création du dépôt public `PaulBufort/NormLab` et push de `codex/build-week-mvp` | Commit racine `b142bd2` visible publiquement ; README, AGPL et 42 fichiers vérifiés sur GitHub |
 | 2026-07-18 | Codex, tâche courante | déploiement | Déploiement Streamlit Community Cloud de `demo/app.py` sur `https://normlab-build-week-2026.streamlit.app/` | Smoke public hors ligne complet réussi : protocole, exécution, budgets, sensibilité, fiche et exports ; pastille « Sol non appelé » vérifiée faute de secret OpenAI |
+| 2026-07-18 | Propriétaire | décision produit | Remplacement du secret propriétaire envisagé par une clé API temporaire apportée par chaque testeur | Le propriétaire estime que le jury OpenAI disposera de clés ; conservation obligatoire du mode fixture si ce n’est pas le cas |
+| 2026-07-18 | Codex, tâche courante | `build-week-new` | Ajout du mode BYOK en mémoire de session, champ masqué, statut explicite et effacement clé + artefacts | Tests Streamlit et suite complète à exécuter ; aucun changement du moteur, des budgets ou des équations |
+| 2026-07-18 | Codex, tâche courante | validation | Validation du lot BYOK sans clé réelle ni appel réseau | 25 tests passés ; compilation et `git diff --check` réussis ; champ HTML `password`, activation et libellés vérifiés sur l’application locale ; aucun motif de clé détecté |
 
-Le dernier lot restant est la configuration du secret OpenAI sur la plateforme et le
-smoke test public réel de `gpt-5.6-sol`, sans jamais inscrire la clé dans Git ou dans
-ce journal.
+Le dernier lot restant est le smoke test public réel de `gpt-5.6-sol` avec une clé
+temporaire fournie par le testeur, sans jamais inscrire la clé dans Git, les secrets
+du déploiement, les exports ou ce journal.

@@ -48,6 +48,12 @@ export OPENAI_API_KEY="..."
 streamlit run demo/app.py
 ```
 
+Sur la démonstration publique, un juré peut aussi ouvrir la barre latérale et fournir
+sa propre clé de projet pour la durée de sa session. NormLab ne l’écrit dans aucun
+fichier, ne l’inclut dans aucun export et permet de l’effacer avec les résultats de la
+session. Les appels restent facturés au compte associé à la clé fournie. Le mode
+fixture demeure disponible sans clé.
+
 La clé ne doit être ni copiée dans `.env.example`, ni committée, ni affichée dans une
 trace. La cible est l’identifiant explicite `gpt-5.6-sol` avec la Responses API,
 sorties structurées, outil strict, `store=False` et effort de raisonnement `medium`.
@@ -94,9 +100,10 @@ ligne. Les appels unitaires ne dépendent ni du réseau ni d’une clé API.
 
 Streamlit Community Cloud déploie `demo/app.py` depuis la branche
 `codex/build-week-mvp`. Le parcours public hors ligne a été vérifié de bout en bout le
-18 juillet 2026. Tant que le secret `OPENAI_API_KEY` n’est pas configuré sur la
-plateforme, la pastille indique explicitement « Fixture hors ligne — Sol non appelé » :
-ce déploiement prouve l’interface et le moteur, pas encore le smoke test réel Sol.
+18 juillet 2026. Sans clé temporaire fournie par le juré, la pastille indique
+explicitement « Fixture hors ligne — Sol non appelé » : ce déploiement prouve
+l’interface et le moteur, pas encore le smoke test réel Sol. Aucun secret propriétaire
+n’est requis sur la plateforme.
 
 La procédure et le smoke test jury sont dans
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).

@@ -8,7 +8,7 @@
 - point d’entrée : `demo/app.py`
 - premier commit déployé : `b142bd2`
 - smoke public fixture : réussi le 18 juillet 2026
-- smoke public GPT‑5.6 Sol : en attente du secret `OPENAI_API_KEY`
+- smoke public GPT‑5.6 Sol : à réaliser avec une clé temporaire du testeur
 
 ## Préparation
 
@@ -16,18 +16,15 @@
 - point d’entrée `demo/app.py` ;
 - dépendances dans `requirements.txt` ;
 - aucune clé dans Git, l’historique ou un fichier `.env` ;
-- secret `OPENAI_API_KEY` configuré dans l’interface Streamlit Community Cloud.
+- aucune clé propriétaire requise dans les secrets Streamlit Community Cloud.
 
 ## Déployer ou mettre à jour
 
 1. Sur Streamlit Community Cloud, créer une application depuis le dépôt NormLab.
 2. Choisir la branche candidate et `demo/app.py` comme main file.
-3. Dans les secrets de l’application, ajouter uniquement :
-
-   ```toml
-   OPENAI_API_KEY = "..."
-   ```
-
+3. Ne pas configurer de clé propriétaire dans les secrets de l’application. Pour un
+   smoke test Sol, le testeur ouvre la barre latérale et fournit une clé de projet
+   temporaire, facturée à son propre compte.
 4. Déployer, attendre un démarrage propre puis noter l’URL dans le README et dans le
    journal de `BUILD_WEEK.md` avec date, commit et résultat du smoke test.
 
@@ -37,7 +34,8 @@ authentification au dépôt ou à Streamlit.
 ## Smoke test public
 
 - la page charge et affiche immédiatement « Pas une prévision » ;
-- la pastille confirme « GPT‑5.6 Sol actif » ;
+- après saisie de la clé temporaire, la pastille confirme « GPT‑5.6 Sol actif — clé
+  temporaire du juré » ;
 - une question libre produit un protocole et une critique inspectables ;
 - les onglets distinguent fourni, inféré et défaut ;
 - le protocole ne s’exécute qu’après approbation ;
@@ -46,6 +44,7 @@ authentification au dépôt ou à Streamlit.
 - la sensibilité et l’équivalence seuil/visibilité sont visibles ;
 - la fiche comporte Résultats, Hypothèses, Limites et Prochaine donnée ;
 - les trois exports JSON fonctionnent et la trace n’expose ni clé ni raisonnement ;
+- le bouton d’effacement retire la clé et les artefacts de la session ;
 - un second lancement du même protocole produit le même `result_id`.
 
 ## Retour arrière

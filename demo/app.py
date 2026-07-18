@@ -65,6 +65,9 @@ st.markdown(
 
 
 def _api_key() -> str | None:
+    session_key = str(st.session_state.get("user_api_key", "")).strip()
+    if session_key:
+        return session_key
     key = os.environ.get("OPENAI_API_KEY", "").strip()
     if key:
         return key
@@ -73,6 +76,15 @@ def _api_key() -> str | None:
         return candidate or None
     except Exception:
         return None
+
+
+def _clear_user_api_key() -> None:
+    st.session_state.user_api_key = ""
+    st.session_state.pop("package", None)
+    st.session_state.pop("sol_trace", None)
+    st.session_state.pop("result", None)
+    st.session_state.pop("card", None)
+    st.session_state.pop("run_notice", None)
 
 
 def _source_label(source: str) -> str:
@@ -111,8 +123,35 @@ def _pct(value: float) -> str:
 if "session_identifier" not in st.session_state:
     st.session_state.session_identifier = str(uuid.uuid4())
 
+with st.sidebar:
+    st.subheader("Tester GPT‑5.6 Sol")
+    st.caption(
+        "Facultatif : utilisez une clé API de projet. Elle reste dans cette session "
+        "et n’est ni enregistrée par NormLab, ni incluse dans les exports."
+    )
+    st.text_input(
+        "Clé API OpenAI temporaire",
+        type="password",
+        key="user_api_key",
+        placeholder="sk-…",
+        help=(
+            "Les appels sont facturés au compte associé à cette clé. "
+            "N’utilisez pas une clé personnelle non plafonnée sur un appareil partagé."
+        ),
+    )
+    if str(st.session_state.get("user_api_key", "")).strip():
+        st.success("Clé temporaire chargée pour cette session.")
+        st.button("Effacer la clé et la session", on_click=_clear_user_api_key)
+    st.caption("Sans clé, la démonstration reproductible hors ligne reste disponible.")
+
 key = _api_key()
-mode = "GPT‑5.6 Sol actif" if key else "Fixture hors ligne — Sol non appelé"
+user_supplied_key = bool(str(st.session_state.get("user_api_key", "")).strip())
+if user_supplied_key:
+    mode = "GPT‑5.6 Sol actif — clé temporaire du juré"
+elif key:
+    mode = "GPT‑5.6 Sol actif — clé de déploiement"
+else:
+    mode = "Fixture hors ligne — Sol non appelé"
 
 st.markdown('<div class="eyebrow">OpenAI Build Week 2026 · NormLab</div>', unsafe_allow_html=True)
 st.title("Expérimenter avant de recommander.")
@@ -178,7 +217,8 @@ if package is not None:
     if package.generated_by == "offline_fixture":
         st.warning(
             "Mode hors ligne : ce protocole provient d’une fixture déterministe, pas de Sol. "
-            "Configurez OPENAI_API_KEY dans l’environnement ou les secrets Streamlit pour la démonstration jury."
+            "Pour une expérience en direct, ouvrez la barre latérale et fournissez "
+            "temporairement une clé API OpenAI."
         )
 
     tabs = st.tabs(["Tous les champs", "Fourni par vous", "Hypothèses", "Défauts"])
