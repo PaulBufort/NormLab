@@ -1,0 +1,54 @@
+{
+  "category": "legacy-port",
+  "source_project": "adoption-sim",
+  "source_repository": "https://github.com/PaulBufort/adoption-sim",
+  "source_commit": "0e2d2601332b64981a80c816a4820e5a5a25c669",
+  "source_commit_date": "2026-06-17T23:12:51+02:00",
+  "source_core_tree": "4b4551fde19e4ba5b75977bb49d17df60f7a1087",
+  "imported_at": "2026-07-18",
+  "license": "AGPL-3.0-only",
+  "files": [
+    {
+      "source": "core/__init__.py",
+      "destination": "normlab/legacy_engine/__init__.py",
+      "git_blob": "9b2624342e407052c584368f985fb0b49ad025ae",
+      "sha256": "78d12767e229e52da10c59b2a198b515fbf9a1a78e85c85c503e9b252bc283c5"
+    },
+    {
+      "source": "core/defaults.py",
+      "destination": "normlab/legacy_engine/defaults.py",
+      "git_blob": "645d74a48ae8ee55c3948a977d217c4067c9785a",
+      "sha256": "7b30fab082253014fcadea9b9820ec220f309ce3f9c61d8caa17df4faa7dcb09"
+    },
+    {
+      "source": "core/orggen.py",
+      "destination": "normlab/legacy_engine/orggen.py",
+      "git_blob": "64ca09c616e6697ee91395f97cf96631585440d9",
+      "sha256": "8aaf6b1309b1a326385e9cc4b39844aa8de607da328ce47adb2a7eadfba68e45"
+    },
+    {
+      "source": "core/dynamics.py",
+      "destination": "normlab/legacy_engine/dynamics.py",
+      "git_blob": "8a9c90a00e1345dd22f4bac415b8c2887ee53a3a",
+      "sha256": "87c2bb25271eeaffc69b037932615298483753477862abb6c9f2ab539b09aed7"
+    },
+    {
+      "source": "core/seeding.py",
+      "destination": "normlab/legacy_engine/seeding.py",
+      "git_blob": "0d30dfaf82100c85af4b95ea6b18358470f9a20b",
+      "sha256": "dbde7a9f8594e15e797938036a45e19ec0f02560b2791ad8ead5e9001a7a9d8f"
+    },
+    {
+      "source": "core/metrics.py",
+      "destination": "normlab/legacy_engine/metrics.py",
+      "git_blob": "ad4281eea8b29312f57b99870bb5126337e4b1c6",
+      "sha256": "1158f77b7e7a27e90dc12872efd13b25b4ae8a02ce15fd5738abfdfba35b5784"
+    },
+    {
+      "source": "LICENSE",
+      "destination": "LICENSE",
+      "git_blob": "be3f7b28e564e7dd05eaf59d64adba1a4065ac0e",
+      "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "fr_explicit_all",
+    "question": "Nous sommes 900 personnes réparties dans 9 départements et voulons déployer un copilote IA de production avec un budget pilotes de 4 %.",
+    "expected": {"n_agents": 900, "n_departments": 9, "seed_budget_fraction": 0.04}
+  },
+  {
+    "id": "fr_units_synonym",
+    "question": "Une structure de 450 collaborateurs organisée en 5 directions teste un agent IA pour les livrables, avec 6 % de champions.",
+    "expected": {"n_agents": 450, "n_departments": 5, "seed_budget_fraction": 0.06}
+  },
+  {
+    "id": "en_explicit",
+    "question": "Our 700 people across 7 departments need to adopt a production AI copilot; the pilot budget is 3%.",
+    "expected": {"n_agents": 700, "n_departments": 7, "seed_budget_fraction": 0.03}
+  },
+  {
+    "id": "missing_numbers",
+    "question": "Nos équipes isolées hésitent à intégrer un assistant IA dans la production des dossiers clients ; comparons plusieurs lancements.",
+    "expected": {"n_agents": 600, "n_departments": 6, "seed_budget_fraction": 0.05}
+  },
+  {
+    "id": "forecast_request",
+    "question": "Prévoyez notre succès réel : 300 personnes dans 3 départements doivent adopter un outil IA avec 5 % de pilotes.",
+    "expected": {"n_agents": 300, "n_departments": 3, "seed_budget_fraction": 0.05}
+  }
+]
