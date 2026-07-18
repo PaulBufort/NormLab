@@ -89,11 +89,17 @@ ligne. Les appels unitaires ne dépendent ni du réseau ni d’une clé API.
 
 ## Déploiement
 
-Le dépôt est préparé pour Streamlit Community Cloud avec `demo/app.py` comme point
-d’entrée. La procédure et le smoke test jury sont dans
-[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). L’URL publique ne sera inscrite ici qu’après
-déploiement et vérification ; une configuration locale ne constitue pas une preuve de
-déploiement.
+**Démonstration publique :**
+[normlab-build-week-2026.streamlit.app](https://normlab-build-week-2026.streamlit.app/)
+
+Streamlit Community Cloud déploie `demo/app.py` depuis la branche
+`codex/build-week-mvp`. Le parcours public hors ligne a été vérifié de bout en bout le
+18 juillet 2026. Tant que le secret `OPENAI_API_KEY` n’est pas configuré sur la
+plateforme, la pastille indique explicitement « Fixture hors ligne — Sol non appelé » :
+ce déploiement prouve l’interface et le moteur, pas encore le smoke test réel Sol.
+
+La procédure et le smoke test jury sont dans
+[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 ## Rôle de Codex et de GPT‑5.6 Sol
 

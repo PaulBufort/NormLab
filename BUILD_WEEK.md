@@ -172,7 +172,9 @@ n’est pas compatible avec le 21 juillet sans réduire les fonctions centrales.
 - [x] Aucun résultat synthétique n’est présenté comme une prévision réelle.
 - [ ] Les tests, contrôles de schéma et smoke tests passent (tests et smoke local
       verts ; smoke réel Sol/public encore requis).
-- [ ] Une démonstration publique est accessible au jury.
+- [x] Une démonstration publique est accessible au jury en mode fixture à
+      `https://normlab-build-week-2026.streamlit.app/` ; activation et smoke test Sol
+      réels encore requis.
 - [x] Le README et ce fichier expliquent exactement le rôle de Codex et de GPT-5.6.
 - [x] La provenance de chaque composant legacy et Build Week est vérifiable.
 
@@ -188,6 +190,9 @@ n’est pas compatible avec le 21 juillet sans réduire les fonctions centrales.
 | 2026-07-18 | Codex, tâche courante | `build-week-new` | Interface Streamlit question → protocole → approbation → résultats → fiche → exports/trace | parcours hors ligne complet vérifié dans le navigateur local ; avertissements visibles ; corrections des warnings Arrow/dépréciation |
 | 2026-07-18 | Codex, tâche courante | `build-week-new` | README, architecture, intégration OpenAI, déploiement, script jury, evals et CI | `python -m compileall -q normlab demo` réussi ; 24 tests passés en 2,68 s ; `pip check` sans dépendance cassée ; scan de motif de clé propre |
 | 2026-07-18 | Propriétaire | autorisation | Autorisation explicite de créer la branche et le commit `codex/build-week-mvp`, pousser vers `origin`, puis déployer sur Streamlit | Message d’autorisation dans cette tâche Codex ; aucun secret communiqué ni demandé dans le dépôt |
+| 2026-07-18 | Codex, tâche courante | publication | Création du dépôt public `PaulBufort/NormLab` et push de `codex/build-week-mvp` | Commit racine `b142bd2` visible publiquement ; README, AGPL et 42 fichiers vérifiés sur GitHub |
+| 2026-07-18 | Codex, tâche courante | déploiement | Déploiement Streamlit Community Cloud de `demo/app.py` sur `https://normlab-build-week-2026.streamlit.app/` | Smoke public hors ligne complet réussi : protocole, exécution, budgets, sensibilité, fiche et exports ; pastille « Sol non appelé » vérifiée faute de secret OpenAI |
 
-Le lot public sera ajouté après commit/push autorisés, configuration du secret sur la
-plateforme et smoke test depuis une session jury non authentifiée.
+Le dernier lot restant est la configuration du secret OpenAI sur la plateforme et le
+smoke test public réel de `gpt-5.6-sol`, sans jamais inscrire la clé dans Git ou dans
+ce journal.

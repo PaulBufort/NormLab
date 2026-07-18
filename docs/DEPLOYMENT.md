@@ -1,5 +1,15 @@
 # Déploiement Streamlit et smoke test jury
 
+## Déploiement actuel
+
+- URL : `https://normlab-build-week-2026.streamlit.app/`
+- dépôt : `https://github.com/PaulBufort/NormLab`
+- branche : `codex/build-week-mvp`
+- point d’entrée : `demo/app.py`
+- premier commit déployé : `b142bd2`
+- smoke public fixture : réussi le 18 juillet 2026
+- smoke public GPT‑5.6 Sol : en attente du secret `OPENAI_API_KEY`
+
 ## Préparation
 
 - dépôt Git distant contenant ce code et une suite de tests verte ;
@@ -8,7 +18,7 @@
 - aucune clé dans Git, l’historique ou un fichier `.env` ;
 - secret `OPENAI_API_KEY` configuré dans l’interface Streamlit Community Cloud.
 
-## Déployer
+## Déployer ou mettre à jour
 
 1. Sur Streamlit Community Cloud, créer une application depuis le dépôt NormLab.
 2. Choisir la branche candidate et `demo/app.py` comme main file.
