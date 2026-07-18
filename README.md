@@ -123,6 +123,13 @@ the engine or approved protocol, silently convert budgets, or replace computatio
 The full responsibility boundary is documented in
 [docs/CODEX_COLLABORATION.md](docs/CODEX_COLLABORATION.md).
 
+## Build Week evidence
+
+The dated build trace and validations are recorded in [BUILD_WEEK.md](BUILD_WEEK.md).
+The final video runbook is in [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md), and the
+submission image set is documented in
+[docs/submission-assets/README.md](docs/submission-assets/README.md).
+
 ## License
 
 AGPL‑3.0-only. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).
