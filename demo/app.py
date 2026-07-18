@@ -26,7 +26,7 @@ from normlab.sol import SolClient
 
 
 st.set_page_config(
-    page_title="NormLab — expériences de changement",
+    page_title="NormLab — organizational change experiments",
     page_icon="◐",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -89,9 +89,9 @@ def _clear_user_api_key() -> None:
 
 def _source_label(source: str) -> str:
     labels = {
-        "provided": "Fourni par vous",
-        "inferred": "Hypothèse Sol",
-        "system_default": "Défaut versionné",
+        "provided": "Provided by you",
+        "inferred": "Sol assumption",
+        "system_default": "Versioned default",
     }
     return labels.get(source, source)
 
@@ -107,10 +107,10 @@ def _protocol_table(protocol) -> pd.DataFrame:
         source = sourced.source.value
         rows.append(
             {
-                "Champ": path,
-                "Valeur": value,
+                "Field": path,
+                "Value": value,
                 "Provenance": _source_label(source),
-                "Justification": sourced.justification,
+                "Rationale": sourced.justification,
             }
         )
     return pd.DataFrame(rows)
@@ -123,71 +123,70 @@ def _pct(value: float) -> str:
 if "session_identifier" not in st.session_state:
     st.session_state.session_identifier = str(uuid.uuid4())
 
-with st.expander("Tester GPT‑5.6 Sol avec une clé temporaire", expanded=False):
+with st.expander("Test GPT‑5.6 Sol with a temporary API key", expanded=False):
     st.caption(
-        "Facultatif : utilisez une clé API de projet. Elle reste dans cette session "
-        "et n’est ni enregistrée par NormLab, ni incluse dans les exports."
+        "Optional: use a project API key. It remains in this session and is neither "
+        "stored by NormLab nor included in exports."
     )
     st.text_input(
-        "Clé API OpenAI temporaire",
+        "Temporary OpenAI API key",
         type="password",
         key="user_api_key",
         placeholder="sk-…",
         help=(
-            "Les appels sont facturés au compte associé à cette clé. "
-            "N’utilisez pas une clé personnelle non plafonnée sur un appareil partagé."
+            "Calls are billed to the account associated with this key. Do not use an "
+            "uncapped personal key on a shared device."
         ),
     )
     if str(st.session_state.get("user_api_key", "")).strip():
-        st.success("Clé temporaire chargée pour cette session.")
-        st.button("Effacer la clé et la session", on_click=_clear_user_api_key)
-    st.caption("Sans clé, la démonstration reproductible hors ligne reste disponible.")
+        st.success("Temporary key loaded for this session.")
+        st.button("Clear key and session", on_click=_clear_user_api_key)
+    st.caption("The reproducible offline demo remains available without a key.")
 
 key = _api_key()
 user_supplied_key = bool(str(st.session_state.get("user_api_key", "")).strip())
 if user_supplied_key:
-    mode = "GPT‑5.6 Sol actif — clé temporaire du juré"
+    mode = "GPT‑5.6 Sol active — temporary evaluator key"
 elif key:
-    mode = "GPT‑5.6 Sol actif — clé de déploiement"
+    mode = "GPT‑5.6 Sol active — deployment key"
 else:
-    mode = "Fixture hors ligne — Sol non appelé"
+    mode = "Offline fixture — Sol not called"
 
 st.markdown('<div class="eyebrow">OpenAI Build Week 2026 · NormLab</div>', unsafe_allow_html=True)
-st.title("Expérimenter avant de recommander.")
+st.title("Experiment before you recommend.")
 st.markdown(
-    '<div class="hero-copy">Décrivez un problème d’adoption de l’IA. GPT‑5.6 Sol '
-    "le transforme en protocole inspectable, critique les hypothèses, puis appelle "
-    "un moteur déterministe d’agents à seuil. Le moteur tranche ; Sol explique.</div>",
+    '<div class="hero-copy">Describe an organizational AI-adoption problem. GPT‑5.6 '
+    "Sol turns it into an inspectable protocol, critiques the assumptions, then calls "
+    "a deterministic threshold-agent engine. The engine decides; Sol explains.</div>",
     unsafe_allow_html=True,
 )
 st.markdown(f'<span class="mode-pill">{mode}</span>', unsafe_allow_html=True)
 st.markdown(
-    '<div class="honesty"><strong>Pas une prévision.</strong> Toutes les organisations, '
-    "seuils et sorties sont synthétiques et non calibrés. NormLab compare des mécanismes "
-    "sous hypothèses ; il ne prédit aucun déploiement réel.</div>",
+    '<div class="honesty"><strong>Not a forecast.</strong> All organizations, thresholds, '
+    "and outputs are synthetic and uncalibrated. NormLab compares mechanisms under "
+    "assumptions; it does not predict a real deployment.</div>",
     unsafe_allow_html=True,
 )
 
 st.markdown('<div class="step">01 · QUESTION</div>', unsafe_allow_html=True)
 default_question = (
-    "Notre organisation compte 600 personnes dans 6 départements. Nous voulons faire "
-    "adopter un copilote IA pour préparer des livrables clients, mais les équipes "
-    "travaillent en silos. Nous pouvons accompagner 5 % des collaborateurs comme pilotes. "
-    "Faut-il disperser les pilotes, choisir des champions, saturer quelques équipes ou "
-    "commencer par les managers ?"
+    "Our organization has 600 people across 6 departments. We want teams to adopt an "
+    "AI copilot for client deliverables, but they work in silos. We can support 5% of "
+    "employees as initial pilots. Should we disperse the pilots, choose champions, "
+    "saturate a few teams, or start with line managers?"
 )
 question = st.text_area(
-    "Problème de changement organisationnel",
+    "Organizational change problem",
     value=st.session_state.get("question", default_question),
     height=150,
-    help="N’ajoutez aucune donnée personnelle ou confidentielle.",
+    help="Do not include personal, confidential, or proprietary information.",
 )
-design_clicked = st.button("Concevoir et critiquer le protocole", type="primary")
+design_clicked = st.button("Design and critique the protocol", type="primary")
 
 if design_clicked:
     st.session_state.question = question
     try:
-        with st.spinner("Sol formalise l’expérience…" if key else "Construction de la fixture inspectable…"):
+        with st.spinner("Sol is formalizing the experiment…" if key else "Building the inspectable fixture…"):
             if key:
                 client = SolClient(
                     api_key=key,
@@ -203,37 +202,37 @@ if design_clicked:
         st.session_state.pop("card", None)
         st.session_state.pop("run_notice", None)
     except Exception as exc:
-        st.error(f"Le protocole n’a pas pu être construit : {exc}")
+        st.error(f"The protocol could not be created: {exc}")
 
 package = st.session_state.get("package")
 if package is not None:
     protocol = package.protocol
     st.divider()
-    st.markdown('<div class="step">02 · PROTOCOLE INSPECTABLE</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step">02 · INSPECTABLE PROTOCOL</div>', unsafe_allow_html=True)
     header_left, header_right = st.columns([3, 1])
     header_left.subheader(protocol.decision_context.value)
     header_right.code(protocol.protocol_id, language=None)
     if package.generated_by == "offline_fixture":
         st.warning(
-            "Mode hors ligne : ce protocole provient d’une fixture déterministe, pas de Sol. "
-            "Pour une expérience en direct, ouvrez la section « Tester GPT‑5.6 Sol » "
-            "en haut de la page et fournissez temporairement une clé API OpenAI."
+            "Offline mode: this protocol comes from a deterministic fixture, not Sol. "
+            "For a live experiment, open “Test GPT‑5.6 Sol” at the top of the page "
+            "and temporarily provide an OpenAI API key."
         )
 
-    tabs = st.tabs(["Tous les champs", "Fourni par vous", "Hypothèses", "Défauts"])
+    tabs = st.tabs(["All fields", "Provided by you", "Assumptions", "Defaults"])
     frame = _protocol_table(protocol)
     with tabs[0]:
         st.dataframe(frame, width="stretch", hide_index=True)
-    for tab, label in zip(tabs[1:], ["Fourni par vous", "Hypothèse Sol", "Défaut versionné"]):
+    for tab, label in zip(tabs[1:], ["Provided by you", "Sol assumption", "Versioned default"]):
         with tab:
             st.dataframe(
                 frame[frame["Provenance"] == label], width="stretch", hide_index=True
             )
 
-    st.markdown("#### Critique de l’expérience")
+    st.markdown("#### Experiment critique")
     critique_rows = [
         {
-            "Sévérité": item.severity.value,
+            "Severity": item.severity.value,
             "Code": item.code.value,
             "Diagnostic": item.message,
         }
@@ -241,47 +240,47 @@ if package is not None:
     ]
     st.dataframe(pd.DataFrame(critique_rows), width="stretch", hide_index=True)
 
-    with st.expander("Ajuster les paramètres avant exécution", expanded=True):
+    with st.expander("Adjust parameters before execution", expanded=True):
         with st.form("protocol_editor"):
             a, b, c = st.columns(3)
             n_agents = a.number_input(
-                "Population synthétique", 200, 3000, protocol.organization.n_agents.value, 50
+                "Synthetic population", 200, 3000, protocol.organization.n_agents.value, 50
             )
             n_departments = b.number_input(
-                "Départements", 2, 20, protocol.organization.n_departments.value, 1
+                "Departments", 2, 20, protocol.organization.n_departments.value, 1
             )
             silo_strength = c.slider(
-                "Force des silos", 0.0, 1.0, float(protocol.organization.silo_strength.value), 0.05
+                "Silo strength", 0.0, 1.0, float(protocol.organization.silo_strength.value), 0.05
             )
             d, e, f = st.columns(3)
             theta_mean = d.slider(
-                "Seuil moyen", 0.05, 0.60, float(protocol.adoption.theta_mean.value), 0.01
+                "Mean threshold", 0.05, 0.60, float(protocol.adoption.theta_mean.value), 0.01
             )
             theta_concentration = e.slider(
-                "Homogénéité des seuils κ", 4.0, 50.0,
+                "Threshold homogeneity κ", 4.0, 50.0,
                 float(protocol.adoption.theta_concentration.value), 1.0
             )
             visibility = f.slider(
-                "Visibilité des usages", 0.2, 1.0, float(protocol.adoption.visibility.value), 0.05
+                "Usage visibility", 0.2, 1.0, float(protocol.adoption.visibility.value), 0.05
             )
             g, h, i = st.columns(3)
             budget_percent = g.slider(
-                "Budget pilotes (%)", 1, 15,
+                "Pilot budget (%)", 1, 15,
                 int(round(100 * protocol.interventions.seed_budget_fraction.value)), 1,
             )
             replicates = h.slider(
-                "Réplications appariées", 3, 20, protocol.execution.replicates.value, 1
+                "Paired replications", 3, 20, protocol.execution.replicates.value, 1
             )
             master_seed = i.number_input(
-                "Graine maître", 0, 2_147_483_647, protocol.execution.master_seed.value, 1
+                "Master seed", 0, 2_147_483_647, protocol.execution.master_seed.value, 1
             )
             strategies = st.multiselect(
-                "Stratégies classées à budget égal",
+                "Strategies ranked at equal budget",
                 ["random", "champions", "cluster", "line_manager_first"],
                 default=protocol.interventions.ranked_strategies.value,
             )
             execute_clicked = st.form_submit_button(
-                "Approuver et exécuter l’expérience", type="primary"
+                "Approve and run the experiment", type="primary"
             )
 
     if execute_clicked:
@@ -305,7 +304,7 @@ if package is not None:
                     "critique": mandatory_critique(approved),
                 }
             )
-            with st.spinner("Le moteur déterministe exécute les scénarios appariés…"):
+            with st.spinner("The deterministic engine is running paired scenarios…"):
                 if key and package.generated_by == "gpt-5.6-sol":
                     client = SolClient(
                         api_key=key,
@@ -314,45 +313,45 @@ if package is not None:
                     result, card, trace = client.run_and_synthesize(
                         approved, run_experiment, st.session_state.get("sol_trace")
                     )
-                    notice = "Sol a appelé l’outil déterministe puis produit une fiche vérifiée."
+                    notice = "Sol called the deterministic tool and produced a verified decision card."
                     st.session_state.sol_trace = trace
                 else:
                     result = run_experiment(approved)
                     card = build_offline_decision_card(approved, result)
                     notice = (
-                        "Exécution locale et fiche déterministe hors ligne ; aucune réponse "
-                        "Sol n’a été simulée."
+                        "Local execution and deterministic offline card; no Sol response "
+                        "was simulated."
                     )
             st.session_state.result = result
             st.session_state.card = card
             st.session_state.run_notice = notice
         except Exception as exc:
-            st.error(f"L’expérience a échoué sans être présentée comme terminée : {exc}")
+            st.error(f"The experiment failed and was not presented as complete: {exc}")
 
 result = st.session_state.get("result")
 card = st.session_state.get("card")
 if result is not None and card is not None:
     protocol = st.session_state.package.protocol
     st.divider()
-    st.markdown('<div class="step">03 · RÉSULTATS DU MOTEUR</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step">03 · ENGINE RESULTS</div>', unsafe_allow_html=True)
     st.info(st.session_state.get("run_notice", ""))
     summaries = {item.strategy: item for item in result.ranked_summaries}
     leader = summaries[result.base_ranking[0]]
     m1, m2, m3, m4 = st.columns(4)
-    m1.metric("Leader central", result.base_ranking[0].replace("_", " "))
-    m2.metric("Adoption synthétique", _pct(leader.final_adoption_mean))
-    m3.metric("Budget comparable", f"{leader.seed_count} pilotes / stratégie")
-    m4.metric("Classement sensible", "Oui" if result.ranking_is_sensitive else "Non")
+    m1.metric("Base-case leader", result.base_ranking[0].replace("_", " "))
+    m2.metric("Synthetic adoption", _pct(leader.final_adoption_mean))
+    m3.metric("Comparable budget", f"{leader.seed_count} pilots / strategy")
+    m4.metric("Sensitive ranking", "Yes" if result.ranking_is_sensitive else "No")
 
     summary_rows = [
         {
-            "Rang": result.base_ranking.index(item.strategy) + 1,
-            "Stratégie": item.strategy,
-            "Moyenne": item.final_adoption_mean,
+            "Rank": result.base_ranking.index(item.strategy) + 1,
+            "Strategy": item.strategy,
+            "Mean": item.final_adoption_mean,
             "P10": item.final_adoption_p10,
             "P90": item.final_adoption_p90,
             "Seeds": item.seed_count,
-            "Départements morts (moy.)": item.dead_departments_mean,
+            "Dead departments (mean)": item.dead_departments_mean,
         }
         for item in sorted(
             result.ranked_summaries,
@@ -361,7 +360,7 @@ if result is not None and card is not None:
     ]
     st.dataframe(
         pd.DataFrame(summary_rows).style.format(
-            {"Moyenne": "{:.1%}", "P10": "{:.1%}", "P90": "{:.1%}"}
+            {"Mean": "{:.1%}", "P10": "{:.1%}", "P90": "{:.1%}"}
         ),
         width="stretch",
         hide_index=True,
@@ -370,70 +369,70 @@ if result is not None and card is not None:
     curve_rows = []
     for item in result.ranked_summaries:
         curve_rows.extend(
-            {"Étape": step, "Adoption": value, "Stratégie": item.strategy}
+            {"Step": step, "Adoption": value, "Strategy": item.strategy}
             for step, value in enumerate(item.curve.mean)
         )
     curve_frame = pd.DataFrame(curve_rows).pivot(
-        index="Étape", columns="Stratégie", values="Adoption"
+        index="Step", columns="Strategy", values="Adoption"
     )
-    st.line_chart(curve_frame, y_label="Adoption synthétique", x_label="Ronde abstraite")
+    st.line_chart(curve_frame, y_label="Synthetic adoption", x_label="Abstract round")
 
     if result.broadcast_reference is not None:
-        with st.expander("Référence contextuelle non comparable : broadcast"):
+        with st.expander("Non-comparable contextual reference: broadcast"):
             st.metric(
-                "Adoption synthétique moyenne",
+                "Mean synthetic adoption",
                 _pct(result.broadcast_reference.final_adoption_mean),
-                help="Zéro seed ; une exposition centrale. Hors classement principal.",
+                help="Zero seeds; one central exposure. Excluded from the main ranking.",
             )
             st.caption(
-                "Broadcast n’utilise pas la même unité de ressource. NormLab refuse "
-                "donc de le classer avec les stratégies à budget de pilotes égal."
+                "Broadcast does not use the same resource unit. NormLab therefore "
+                "refuses to rank it alongside equal-pilot-budget strategies."
             )
 
-    st.markdown("#### Sensibilité des conclusions")
+    st.markdown("#### Sensitivity of conclusions")
     sensitivity_frame = pd.DataFrame(
         [
             {
-                "Facteur": item.factor,
-                "Niveau": item.level,
-                "Valeur": item.value,
+                "Factor": item.factor,
+                "Level": item.level,
+                "Value": item.value,
                 "Leader": item.top_strategy,
-                "Adoption du leader": item.top_final_adoption,
-                "Classement changé": item.ranking_changed,
+                "Leader adoption": item.top_final_adoption,
+                "Ranking changed": item.ranking_changed,
             }
             for item in result.sensitivity
         ]
     )
     st.dataframe(
-        sensitivity_frame.style.format({"Adoption du leader": "{:.1%}"}),
+        sensitivity_frame.style.format({"Leader adoption": "{:.1%}"}),
         width="stretch",
         hide_index=True,
     )
     for flag in result.non_identifiability:
-        st.warning(f"Non-identifiabilité — {flag.explanation} {flag.consequence}")
+        st.warning(f"Non-identifiability — {flag.explanation} {flag.consequence}")
 
     st.divider()
-    st.markdown('<div class="step">04 · FICHE DE DÉCISION</div>', unsafe_allow_html=True)
+    st.markdown('<div class="step">04 · DECISION CARD</div>', unsafe_allow_html=True)
     st.subheader(card.title)
     st.write(card.verdict)
     c1, c2, c3, c4 = st.columns(4)
     with c1:
-        st.markdown("#### Résultats")
+        st.markdown("#### Results")
         for item in card.results:
             st.write(item.statement)
             for ev in item.evidence:
                 formatted = _pct(ev.value) if ev.unit == "fraction" else f"{ev.value:.1f}"
                 st.caption(f"{ev.strategy} · {ev.metric} = {formatted}")
     with c2:
-        st.markdown("#### Hypothèses")
+        st.markdown("#### Assumptions")
         for item in card.assumptions:
             st.write("• " + item.statement)
     with c3:
-        st.markdown("#### Limites")
+        st.markdown("#### Limitations")
         for item in card.limitations:
             st.write("• " + item.statement)
     with c4:
-        st.markdown("#### Prochaine donnée")
+        st.markdown("#### Next data")
         for item in card.next_data:
             st.write("• **" + item.data + "**")
             st.caption(item.why_it_matters)
@@ -444,24 +443,24 @@ if result is not None and card is not None:
     )
     d1, d2, d3 = st.columns(3)
     d1.download_button(
-        "Télécharger le protocole JSON",
+        "Download protocol JSON",
         protocol.model_dump_json(indent=2),
         file_name=f"{protocol.protocol_id}.json",
         mime="application/json",
     )
     d2.download_button(
-        "Télécharger les résultats JSON",
+        "Download results JSON",
         result.model_dump_json(indent=2),
         file_name=f"{result.result_id}.json",
         mime="application/json",
     )
     d3.download_button(
-        "Télécharger la fiche JSON",
+        "Download decision card JSON",
         card.model_dump_json(indent=2),
         file_name=f"{card.card_id}.json",
         mime="application/json",
     )
-    with st.expander("Trace d’audit de cette exécution"):
+    with st.expander("Audit trace for this run"):
         trace = st.session_state.get("sol_trace")
         st.json(
             {
@@ -479,6 +478,6 @@ if result is not None and card is not None:
 
 st.divider()
 st.caption(
-    "NormLab · Build Week 2026 · GPT‑5.6 Sol conçoit et critique ; adoption-sim "
-    "0.1.0 calcule ; les garde-fous locaux vérifient budget, provenance et preuves."
+    "NormLab · Build Week 2026 · GPT‑5.6 Sol designs and critiques; adoption-sim "
+    "0.1.0 computes; local guardrails verify budgets, provenance, and evidence."
 )

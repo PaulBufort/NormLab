@@ -90,7 +90,7 @@ def test_unsupported_numeric_user_fact_is_downgraded(protocol):
     claimed.adoption.theta_mean.value = 0.77
     grounded = ground_protocol_in_question(claimed, protocol.question.value)
     assert grounded.adoption.theta_mean.source == Provenance.INFERRED
-    assert "corrigée" in grounded.adoption.theta_mean.justification
+    assert "corrected" in grounded.adoption.theta_mean.justification
 
 
 def test_false_system_default_and_paraphrased_text_are_downgraded(protocol):

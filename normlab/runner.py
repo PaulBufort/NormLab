@@ -256,7 +256,7 @@ def run_experiment(protocol: ExperimentProtocol) -> ExperimentResult:
             resource_unit="initial_adopters",
             amount=float(seed_count),
             comparable_in_ranking=True,
-            note="Même nombre de seeds, mêmes organisations et réplications appariées.",
+            note="Same seed count, same organizations, and paired replications.",
         )
         for strategy in protocol.interventions.ranked_strategies.value
     ]
@@ -268,8 +268,8 @@ def run_experiment(protocol: ExperimentProtocol) -> ExperimentResult:
                 amount=1.0,
                 comparable_in_ranking=False,
                 note=(
-                    "Zéro seed ; exposition centrale d’une ronde. Affiché comme "
-                    "référence contextuelle, jamais dans le classement principal."
+                    "Zero seeds; one round of central exposure. Displayed as a "
+                    "contextual reference and never included in the main ranking."
                 ),
             )
         )
@@ -287,11 +287,11 @@ def run_experiment(protocol: ExperimentProtocol) -> ExperimentResult:
     ).hexdigest()[:16]
     sensitive = any(item.ranking_changed for item in sensitivity)
     warnings = [
-        "Données entièrement synthétiques et non calibrées : résultat conditionnel, pas prévision.",
-        "Les stratégies classées partagent un budget de seeds ; broadcast est hors classement.",
+        "Fully synthetic, uncalibrated data: a conditional result, not a forecast.",
+        "Ranked strategies share one seed budget; broadcast is outside the ranking.",
     ]
     if sensitive:
-        warnings.append("Le classement change dans au moins un scénario de sensibilité.")
+        warnings.append("The ranking changes in at least one sensitivity scenario.")
 
     return ExperimentResult(
         result_id=result_id,
@@ -311,12 +311,12 @@ def run_experiment(protocol: ExperimentProtocol) -> ExperimentResult:
                 code="theta_visibility_equivalence",
                 parameters=["theta_mean", "visibility"],
                 explanation=(
-                    "Sans broadcast, une visibilité globale v produit la même "
-                    "trajectoire que visibilité=1 avec les seuils theta/v."
+                    "Without broadcast, global visibility v produces the same "
+                    "trajectory as visibility=1 with thresholds theta/v."
                 ),
                 consequence=(
-                    "Une faible adoption ne permet pas de distinguer une population "
-                    "difficile à convaincre d’un usage difficile à observer."
+                    "Low adoption cannot distinguish a high-threshold population from "
+                    "resistance caused by a hard-to-observe use."
                 ),
             )
         ],

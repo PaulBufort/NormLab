@@ -45,23 +45,27 @@ def ensure_mandatory_guardrails(
     limitations = list(card.limitations)
     visible = " ".join(item.statement.lower() for item in limitations)
     mandatory: list[DecisionTextItem] = []
-    if "visibil" not in visible or "seuil" not in visible:
+    if "visibil" not in visible or not any(
+        term in visible for term in ("seuil", "threshold")
+    ):
         mandatory.append(
             DecisionTextItem(
                 statement=(
-                    "La visibilité des usages et le seuil d’adoption ne sont pas "
-                    "identifiables séparément dans ce moteur : une visibilité plus "
-                    "faible peut être équivalente à un seuil effectif plus élevé."
+                    "Usage visibility and the adoption threshold are not separately "
+                    "identifiable in this engine: lower visibility can be equivalent "
+                    "to a higher effective threshold."
                 ),
                 origin="system_guardrail",
             )
         )
-    if result.ranking_is_sensitive and "sensib" not in visible:
+    if result.ranking_is_sensitive and not any(
+        term in visible for term in ("sensib", "sensit")
+    ):
         mandatory.append(
             DecisionTextItem(
                 statement=(
-                    "Le classement est sensible aux hypothèses testées et ne constitue "
-                    "donc pas un ordre robuste pour une organisation réelle."
+                    "The ranking is sensitive to the tested assumptions and therefore "
+                    "does not provide a robust ordering for a real organization."
                 ),
                 origin="system_guardrail",
             )
@@ -98,9 +102,13 @@ def verify_decision_card(card: DecisionCard, result: ExperimentResult) -> None:
     ):
         raise ValueError("decision card must say synthetic and not a forecast")
     all_limitations = " ".join(item.statement.lower() for item in card.limitations)
-    if "visibil" not in all_limitations or "seuil" not in all_limitations:
+    if "visibil" not in all_limitations or not any(
+        term in all_limitations for term in ("seuil", "threshold")
+    ):
         raise ValueError("decision card omits theta/visibility non-identifiability")
-    if result.ranking_is_sensitive and "sensib" not in all_limitations:
+    if result.ranking_is_sensitive and not any(
+        term in all_limitations for term in ("sensib", "sensit")
+    ):
         raise ValueError("decision card omits ranking sensitivity")
     forbidden = re.compile(r"\b(prévoit|prédira|probabilité de succès|forecast)\b", re.I)
     visible_text = " ".join(
@@ -121,24 +129,24 @@ def build_offline_decision_card(
     top = by_strategy[top_name]
     runner_up = by_strategy[result.base_ranking[1]]
     sensitivity_text = (
-        "Le classement change dans les scénarios de sensibilité ; la stratégie en tête "
-        "n’est donc pas robuste aux hypothèses testées."
+        "The ranking changes across sensitivity scenarios, so the leading strategy "
+        "is not robust to the tested assumptions."
         if result.ranking_is_sensitive
-        else "Le leader reste le même dans la grille de sensibilité testée, sans que cela prouve sa validité réelle."
+        else "The leader remains unchanged across the tested sensitivity grid, which does not establish real-world validity."
     )
     card = DecisionCard(
         card_id="content-addressed-after-validation",
         protocol_id=protocol.protocol_id,
-        title="Fiche de décision NormLab — expérience synthétique",
+        title="NormLab decision card — synthetic experiment",
         verdict=(
-            f"Sous le protocole approuvé, {top_name} obtient la plus forte adoption "
-            f"simulée moyenne parmi les stratégies à budget comparable."
+            f"Under the approved protocol, {top_name} produces the highest mean "
+            f"synthetic adoption among strategies with comparable budgets."
         ),
         results=[
             DecisionResultItem(
                 statement=(
-                    f"{top_name} est premier dans le scénario central ; "
-                    f"{result.base_ranking[1]} est second."
+                    f"{top_name} ranks first in the base case; "
+                    f"{result.base_ranking[1]} ranks second."
                 ),
                 evidence=[
                     EvidenceRef(
@@ -158,7 +166,7 @@ def build_offline_decision_card(
         ],
         assumptions=[
             DecisionTextItem(
-                statement=assumption.statement + " Impact : " + assumption.impact,
+                statement=assumption.statement + " Impact: " + assumption.impact,
                 origin="offline_fixture",
             )
             for assumption in protocol.assumptions
@@ -167,44 +175,44 @@ def build_offline_decision_card(
             DecisionTextItem(statement=sensitivity_text, origin="system_guardrail"),
             DecisionTextItem(
                 statement=(
-                    "Visibilité globale et seuil d’adoption ne sont pas identifiables "
-                    "séparément dans les scénarios sans broadcast (équivalence theta/v)."
+                    "Global visibility and the adoption threshold are not separately "
+                    "identifiable without broadcast (theta/v equivalence)."
                 ),
                 origin="system_guardrail",
             ),
             DecisionTextItem(
                 statement=(
-                    "Broadcast a une unité de ressource différente et apparaît seulement "
-                    "comme référence contextuelle, hors classement."
+                    "Broadcast uses a different resource unit and appears only as a "
+                    "contextual reference outside the ranking."
                 ),
                 origin="system_guardrail",
             ),
             DecisionTextItem(
-                statement="Le moteur n’est calibré sur aucune organisation réelle.",
+                statement="The engine is not calibrated to any real organization.",
                 origin="system_guardrail",
             ),
         ],
         next_data=[
             NextDataItem(
-                data="Distribution empirique des seuils ou besoins de preuve sociale",
-                why_it_matters="C’est un déterminant majeur et sensible du classement.",
+                data="Empirical distribution of adoption thresholds or social-proof needs",
+                why_it_matters="This is a major and ranking-sensitive determinant.",
                 collection_hint=(
-                    "Observer un pilote borné : exposition, nombre de pairs visibles et "
-                    "passage à un usage de production, sans déduire de traits individuels."
+                    "Observe a bounded pilot: exposure, number of visible peers, and "
+                    "transition to production use, without inferring personal traits."
                 ),
             ),
             NextDataItem(
-                data="Carte agrégée des collaborations entre équipes",
-                why_it_matters="Elle réduit l’incertitude sur la force des silos.",
+                data="Aggregated map of cross-team collaboration",
+                why_it_matters="It reduces uncertainty about silo strength.",
                 collection_hint=(
-                    "Collecter des comptes agrégés et anonymisés de collaborations, avec "
-                    "revue juridique et minimisation des données."
+                    "Collect aggregated and anonymized collaboration counts, with legal "
+                    "review and data minimization."
                 ),
             ),
         ],
         synthetic_disclaimer=(
-            "Tous les résultats sont synthétiques, non calibrés et conditionnels aux "
-            "hypothèses ; cette fiche n’est pas une prévision d’un déploiement réel."
+            "All results are synthetic, uncalibrated, and conditional on the stated "
+            "assumptions; this decision card is not a forecast of a real deployment."
         ),
         generated_by="offline_fixture",
     )

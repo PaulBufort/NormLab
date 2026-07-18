@@ -1,20 +1,19 @@
-# Script de démonstration jury (3 minutes)
+# Evaluator demo script (under 3 minutes)
 
-1. Montrer la bannière « Pas une prévision » et formuler une question contenant deux
-   contraintes réelles et plusieurs inconnues.
-2. Cliquer « Concevoir et critiquer » ; montrer un fait `provided`, une hypothèse
-   `inferred`, un défaut `system_default` et l’équivalence seuil/visibilité.
-3. Modifier un paramètre : sa provenance passe à `provided`. Approuver seulement
-   après cette inspection.
-4. Montrer le budget identique des quatre stratégies, puis ouvrir broadcast pour
-   expliquer pourquoi il reste hors classement.
-5. Montrer une inversion de classement dans la table de sensibilité si elle existe.
-6. Lire les quatre colonnes de la fiche, en insistant sur la prochaine donnée qui
-   réduirait l’incertitude.
-7. Ouvrir la trace : Sol conçoit et explique, le moteur versionné calcule, les preuves
-   sont vérifiées localement. Télécharger un résultat pour montrer les réplications
-   et graines brutes.
+1. Show the “Not a forecast” banner and enter a question containing two explicit
+   constraints and several unknowns.
+2. Click “Design and critique the protocol.” Show one `provided` fact, one `inferred`
+   assumption, one `system_default`, and the threshold/visibility equivalence.
+3. Change one parameter and show that its provenance becomes `provided`. Approve only
+   after this inspection.
+4. Show the identical budget for the four ranked strategies, then open `broadcast` to
+   explain why it remains outside the ranking.
+5. Show a ranking reversal in the sensitivity table when one occurs.
+6. Read the four decision-card columns, emphasizing the next real-world data that
+   would reduce uncertainty.
+7. Open the audit trace: Sol designs and explains, the versioned engine computes, and
+   local guardrails verify the evidence. Download one result to show paired raw runs.
 
-Ne jamais dire « NormLab prédit », « ce taux arrivera » ou « Sol a simulé les
-personnes ». Dire « dans ce scénario synthétique », « résultat sous hypothèses » et
-« le moteur à seuil a calculé ».
+Never say “NormLab predicts,” “this adoption rate will happen,” or “Sol simulated the
+people.” Say “in this synthetic scenario,” “a result under assumptions,” and “the
+threshold engine calculated.”

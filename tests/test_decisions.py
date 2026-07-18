@@ -15,7 +15,7 @@ def test_offline_card_is_grounded_and_separated(protocol, result):
     assert card.results and card.assumptions and card.limitations and card.next_data
     assert card.generated_by == "offline_fixture"
     assert "synth" in card.synthetic_disclaimer.lower()
-    assert "prévision" in card.synthetic_disclaimer.lower()
+    assert "forecast" in card.synthetic_disclaimer.lower()
 
 
 def test_invented_evidence_is_rejected(protocol, result):
@@ -49,6 +49,6 @@ def test_mandatory_non_identifiability_is_restored_as_system_guardrail(
     verify_decision_card(repaired, result)
     added = [item for item in repaired.limitations if item.origin == "system_guardrail"]
     assert any(
-        "visibil" in item.statement.lower() and "seuil" in item.statement.lower()
+        "visibil" in item.statement.lower() and "threshold" in item.statement.lower()
         for item in added
     )

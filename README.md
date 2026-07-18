@@ -1,35 +1,37 @@
 # NormLab
 
-NormLab transforme une question d’adoption de l’IA en expérience inspectable.
-GPT‑5.6 Sol conçoit et critique le protocole ; un moteur déterministe d’agents à
-seuil exécute les scénarios ; NormLab compare les interventions et produit une fiche
-qui sépare résultat, hypothèse, limite et prochaine donnée à recueillir.
+NormLab turns an organizational AI-adoption question into an inspectable experiment.
+GPT‑5.6 Sol designs and critiques the protocol; a deterministic threshold-agent
+engine runs the scenarios; NormLab compares interventions and produces a decision
+card that separates results, assumptions, limitations, and the next data to collect.
 
-> **Ce produit ne fait pas de prévision.** Les organisations, comportements et
-> résultats sont synthétiques, non calibrés et conditionnels aux hypothèses visibles.
+> **This product does not make forecasts.** Organizations, behaviors, and results
+> are synthetic, uncalibrated, and conditional on visible assumptions.
 
-## Parcours produit
+## Product journey
 
 ```mermaid
 flowchart LR
-    U["Question utilisateur"] --> S["Sol : protocole + critique"]
-    S --> H["Inspection et approbation humaine"]
-    H --> T["Appel d’outil typé"]
-    T --> E["Moteur déterministe à seuil"]
-    E --> G["Budgets, réplications et sensibilités codés"]
-    G --> C["Sol : fiche de décision"]
-    C --> V["Vérification locale des preuves"]
+    U["User question"] --> S["Sol: protocol + critique"]
+    S --> H["Human inspection and approval"]
+    H --> T["Typed tool call"]
+    T --> E["Deterministic threshold engine"]
+    E --> G["Coded budgets, replications, and sensitivity"]
+    G --> C["Sol: decision card"]
+    C --> V["Local evidence verification"]
 ```
 
-Le modèle ne pilote jamais les agents simulés et ne produit aucun résultat numérique
-à la place du moteur. Une valeur du protocole porte toujours l’une des provenances
-`provided`, `inferred` ou `system_default`. Les quatre stratégies classées utilisent
-le même nombre de pilotes et les mêmes organisations/graines par réplication.
-`broadcast`, dont l’unité de ressource diffère, reste hors classement.
+The model never controls simulated agents and never substitutes prose for numerical
+engine output. Every protocol value has one provenance label: `provided`, `inferred`,
+or `system_default`. The four ranked strategies use the same pilot count and the same
+organizations/seeds in each paired replication. `broadcast` uses a different resource
+unit and therefore remains outside the main ranking.
 
-## Démonstration locale
+## Local demo
 
-Prérequis : Python 3.11 ou plus récent.
+Requirement: Python 3.11 or newer.
+
+On macOS, double-click `Lancer NormLab.command`, or run:
 
 ```bash
 python3 -m venv .venv
@@ -39,47 +41,47 @@ python -m pytest
 streamlit run demo/app.py
 ```
 
-Sans clé, le parcours fonctionne avec une fixture déterministe clairement étiquetée :
-elle ne prétend jamais être Sol. Pour tester l’intégration réelle, fournir la clé par
-l’environnement, jamais dans un fichier suivi :
+Without a key, the journey uses a clearly labeled deterministic fixture that never
+pretends to be Sol. To test the live integration, provide the key through the
+environment, never through a tracked file:
 
 ```bash
 export OPENAI_API_KEY="..."
 streamlit run demo/app.py
 ```
 
-Sur la démonstration publique, un juré peut aussi ouvrir la section repliable
-« Tester GPT‑5.6 Sol » et fournir sa propre clé de projet pour la durée de sa session.
-NormLab ne l’écrit dans aucun fichier, ne l’inclut dans aucun export et permet de
-l’effacer avec les résultats de la session. Les appels restent facturés au compte
-associé à la clé fournie. Le mode fixture demeure disponible sans clé.
+In the public demo, an evaluator may instead open “Test GPT‑5.6 Sol with a temporary
+API key” and supply a project key for the current session. NormLab does not write the
+key to a file, include it in exports, or retain it after the session is cleared. Calls
+are billed to the account associated with the supplied key. Offline fixture mode
+remains available without a key.
 
-La clé ne doit être ni copiée dans `.env.example`, ni committée, ni affichée dans une
-trace. La cible est l’identifiant explicite `gpt-5.6-sol` avec la Responses API,
-sorties structurées, outil strict, `store=False` et effort de raisonnement `medium`.
-Voir [docs/OPENAI_INTEGRATION.md](docs/OPENAI_INTEGRATION.md).
+Never copy a key into `.env.example`, commit it, or expose it in a trace. The explicit
+model target is `gpt-5.6-sol`, using the Responses API, structured outputs, a strict
+tool, `store=False`, and `medium` reasoning effort. See
+[docs/OPENAI_INTEGRATION.md](docs/OPENAI_INTEGRATION.md).
 
-## Ce qui est nouveau
+## What is new for Build Week
 
-Le moteur historique existait avant le 13 juillet 2026. Six fichiers nécessaires ont
-été portés sans modification depuis `adoption-sim` au commit
-`0e2d2601332b64981a80c816a4820e5a5a25c669`, sous AGPL‑3.0. Leur provenance et leurs
-empreintes sont vérifiées à chaque test dans
+The historical engine existed before July 13, 2026. Six required files were ported
+without modification from `adoption-sim` at commit
+`0e2d2601332b64981a80c816a4820e5a5a25c669` under AGPL‑3.0. Their provenance and
+hashes are checked in every test through
 [docs/provenance/LEGACY_ENGINE.json](docs/provenance/LEGACY_ENGINE.json).
 
-Les apports `build-week-new` sont :
+The `build-week-new` contributions are:
 
-- les schémas stricts du protocole, de la critique, des résultats et de la fiche ;
-- la provenance champ par champ et le garde-fou lexical sur les faits numériques ;
-- l’orchestrateur de réplications appariées et le registre de budgets ;
-- l’analyse de sensibilité sur seuil moyen, concentration, silos et visibilité ;
-- le drapeau obligatoire d’équivalence `theta / visibility` ;
-- l’intégration GPT‑5.6 Sol en deux étapes et la vérification des preuves ;
-- l’interface centrée sur une question en langage naturel et les exports d’audit ;
-- les tests, evals hors ligne, CI et documentation de Build Week.
+- strict schemas for the protocol, critique, results, and decision card;
+- field-level provenance and a lexical guardrail for user-provided numeric facts;
+- paired-replication orchestration and a budget ledger;
+- sensitivity analysis over mean threshold, concentration, silos, and visibility;
+- a mandatory `theta / visibility` non-identifiability flag;
+- the two-stage GPT‑5.6 Sol integration and evidence verification;
+- a natural-language interface and audit exports;
+- tests, offline evals, CI, and Build Week documentation.
 
-L’inventaire pré-Build Week est dans [docs/BASELINE.md](docs/BASELINE.md) ; la frontière
-d’architecture est dans [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+The pre-Build Week inventory is in [docs/BASELINE.md](docs/BASELINE.md), and the
+architecture boundary is in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Validation
 
@@ -88,40 +90,39 @@ python -m pytest
 python -m compileall -q normlab demo
 ```
 
-La suite couvre la parité par empreinte du moteur, ses invariants historiques, la
-reproductibilité complète, les budgets, les scénarios de sensibilité, la provenance,
-le contrat d’outil Sol, le rejet de preuves inventées et le parcours Streamlit hors
-ligne. Les appels unitaires ne dépendent ni du réseau ni d’une clé API.
+The suite covers engine hash parity, historical invariants, full reproducibility,
+budgets, sensitivity scenarios, provenance, the Sol tool contract, rejection of
+invented evidence, and the offline Streamlit journey. Unit tests require neither
+network access nor an API key.
 
-## Déploiement
+## Deployment
 
-**Démonstration publique :**
+**Public demo:**
 [normlab-build-week-2026.streamlit.app](https://normlab-build-week-2026.streamlit.app/)
 
-Streamlit Community Cloud déploie `demo/app.py` depuis la branche
-`codex/build-week-mvp`. Le parcours public hors ligne a été vérifié de bout en bout le
-18 juillet 2026. Sans clé temporaire fournie par le juré, la pastille indique
-explicitement « Fixture hors ligne — Sol non appelé » : ce déploiement prouve
-l’interface et le moteur, pas encore le smoke test réel Sol. Aucun secret propriétaire
-n’est requis sur la plateforme.
+Streamlit Community Cloud deploys `demo/app.py` from `codex/build-week-mvp`. The
+offline public journey and a local live GPT‑5.6 Sol journey were verified end to end
+on July 18, 2026. Without a temporary evaluator key, the interface explicitly shows
+“Offline fixture — Sol not called.” No owner-funded API secret is required on the
+platform.
 
-La procédure et le smoke test jury sont dans
+Deployment and evaluator smoke-test instructions are in
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
-## Rôle de Codex et de GPT‑5.6 Sol
+## Roles of Codex and GPT‑5.6 Sol
 
-Codex a inspecté la référence en lecture seule et construit pendant cette tâche la
-majorité du produit NormLab : gouvernance, portage traçable, schémas, garde-fous,
-orchestrateur, intégration OpenAI, interface, tests/evals et documentation. La tâche
-Codex doit rester identifiable via son identifiant `/feedback` pour le concours.
+Codex inspected the historical reference in read-only mode and built most of NormLab
+during this task: governance, traceable porting, schemas, guardrails, orchestration,
+OpenAI integration, interface, tests/evals, and documentation. The Codex task remains
+identifiable through its `/feedback` identifier for the competition submission.
 
-GPT‑5.6 Sol intervient à l’exécution du produit : il traduit la question en protocole
-structuré, critique l’expérience, demande l’appel de l’outil déterministe après
-approbation humaine et rédige la fiche à partir du résultat retourné. Sol ne modifie
-ni le moteur ni le protocole approuvé, ne convertit pas des budgets sans hypothèse
-explicite et ne remplace pas le calcul. Les responsabilités complètes sont consignées
-dans [docs/CODEX_COLLABORATION.md](docs/CODEX_COLLABORATION.md).
+At product runtime, GPT‑5.6 Sol turns the question into a structured protocol,
+critiques the experiment, requests the deterministic tool call after human approval,
+and writes a decision card grounded in the returned engine output. Sol does not alter
+the engine or approved protocol, silently convert budgets, or replace computation.
+The full responsibility boundary is documented in
+[docs/CODEX_COLLABORATION.md](docs/CODEX_COLLABORATION.md).
 
-## Licence
+## License
 
-AGPL‑3.0-only. Voir [LICENSE](LICENSE) et [NOTICE.md](NOTICE.md).
+AGPL‑3.0-only. See [LICENSE](LICENSE) and [NOTICE.md](NOTICE.md).

@@ -7,8 +7,8 @@ the deterministic engine and local validators.
 from __future__ import annotations
 
 
-DESIGN_PROMPT_VERSION = "design-2026-07-18.v1"
-DECISION_PROMPT_VERSION = "decision-2026-07-18.v2"
+DESIGN_PROMPT_VERSION = "design-2026-07-18.v2"
+DECISION_PROMPT_VERSION = "decision-2026-07-18.v3"
 
 
 DESIGN_INSTRUCTIONS = """
@@ -39,8 +39,9 @@ relapse_probability=0.0, seed_budget_fraction=0.05, replicates=4,
 master_seed=20260718, max_steps=60.
 
 Use protocol_id="draft"; the application replaces it with a content hash after
-validation. Write explanatory text in the user's language. Return only the typed
-schema. The protocol is a proposal for user inspection, not authorization to run.
+validation. Write every visible explanatory field in English, regardless of the
+language used in the question. Return only the typed schema. The protocol is a
+proposal for user inspection, not authorization to run.
 """.strip()
 
 
@@ -64,6 +65,7 @@ Requirements:
 - Keep negative and null results.
 - generated_by must be `gpt-5.6-sol`; protocol_id must match the tool output.
 - The disclaimer must explicitly say the data are synthetic and not a forecast.
+- Write every visible field in English.
 - Be concise: return exactly 3 result items, 3 assumption items, 3 limitation
   items, and 3 next-data items. Use one short sentence per statement and exactly
   one evidence reference per result item. Do not reproduce the tool output.

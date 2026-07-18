@@ -78,7 +78,7 @@ def _provided_or_default(
     return (
         DEFAULTS[default_key],
         Provenance.SYSTEM_DEFAULT,
-        "Valeur par défaut versionnée du MVP NormLab.",
+        "Versioned NormLab MVP default.",
     )
 
 
@@ -104,8 +104,8 @@ def mandatory_critique(protocol: ExperimentProtocol) -> ExperimentCritique:
             code=CritiqueCode.SYNTHETIC_NOT_FORECAST,
             severity=CritiqueSeverity.WARNING,
             message=(
-                "Les résultats seront produits sur des organisations et comportements "
-                "synthétiques non calibrés ; ils ne constituent pas une prévision."
+                "Results will be produced from synthetic, uncalibrated organizations "
+                "and behaviors; they are not a forecast."
             ),
             field_paths=[],
         ),
@@ -113,9 +113,9 @@ def mandatory_critique(protocol: ExperimentProtocol) -> ExperimentCritique:
             code=CritiqueCode.NON_IDENTIFIABLE,
             severity=CritiqueSeverity.WARNING,
             message=(
-                "Dans les scénarios sans broadcast, réduire la visibilité globale v "
-                "est exactement équivalent à augmenter les seuils theta/v. Ces deux "
-                "explications ne sont pas identifiables séparément."
+                "Without broadcast, reducing global visibility v is exactly equivalent "
+                "to increasing thresholds to theta/v. These explanations are not "
+                "separately identifiable."
             ),
             field_paths=["adoption.theta_mean", "adoption.visibility"],
         ),
@@ -123,8 +123,8 @@ def mandatory_critique(protocol: ExperimentProtocol) -> ExperimentCritique:
             code=CritiqueCode.BUDGET_NON_COMPARABLE,
             severity=CritiqueSeverity.INFO,
             message=(
-                "Broadcast utilise une exposition de communication et zéro seed ; il "
-                "sera affiché séparément du classement à budget de seeds égal."
+                "Broadcast uses one communication exposure and zero seeds; it is shown "
+                "separately from the equal-seed-budget ranking."
             ),
             field_paths=["interventions.broadcast_context_reference"],
         ),
@@ -132,8 +132,8 @@ def mandatory_critique(protocol: ExperimentProtocol) -> ExperimentCritique:
             code=CritiqueCode.STRONG_ASSUMPTION,
             severity=CritiqueSeverity.WARNING,
             message=(
-                "La distribution des seuils et les poids de crédibilité ne sont pas "
-                "mesurés dans l’organisation décrite et peuvent changer le classement."
+                "The threshold distribution and credibility weights are not measured "
+                "in the described organization and may change the ranking."
             ),
             field_paths=["adoption.theta_mean", "adoption.theta_concentration"],
         ),
@@ -141,16 +141,16 @@ def mandatory_critique(protocol: ExperimentProtocol) -> ExperimentCritique:
             code=CritiqueCode.MISSING_USER_DATA,
             severity=CritiqueSeverity.WARNING,
             message=(
-                f"{len(inferred)} champs du protocole ne viennent pas directement de "
-                "l’utilisateur ; ils restent inspectables avant exécution."
+                f"{len(inferred)} protocol fields do not come directly from the user; "
+                "they remain inspectable before execution."
             ),
             field_paths=inferred[:8],
         ),
     ]
     return ExperimentCritique(
         summary=(
-            "Protocole exécutable comme expérience synthétique, sous réserve de "
-            "conserver visibles les hypothèses et la sensibilité."
+            "The protocol can run as a synthetic experiment provided that assumptions "
+            "and sensitivity remain visible."
         ),
         items=items,
     )
@@ -185,7 +185,7 @@ def ground_protocol_in_question(
     grounded.question = TextValue(
         value=question.strip(),
         source=Provenance.PROVIDED,
-        justification="Texte exact saisi par l’utilisateur.",
+        justification="Exact text entered by the user.",
     )
     number_tokens = [
         (float(match.group(1).replace(",", ".")), bool(match.group(2)))
@@ -212,8 +212,8 @@ def ground_protocol_in_question(
         ):
             sourced.source = Provenance.INFERRED
             sourced.justification = (
-                "Provenance corrigée par le garde-fou local : ce texte est une "
-                "formalisation du problème, pas la question utilisateur verbatim."
+                "Provenance corrected by the local guardrail: this text formalizes "
+                "the problem but is not the verbatim user question."
             )
             continue
         if (
@@ -223,8 +223,8 @@ def ground_protocol_in_question(
         ):
             sourced.source = Provenance.INFERRED
             sourced.justification = (
-                "Provenance corrigée par le garde-fou local : cette valeur numérique "
-                "n’apparaît pas dans la question utilisateur."
+                "Provenance corrected by the local guardrail: this numeric value does "
+                "not appear in the user question."
             )
         default_key = path.rsplit(".", 1)[-1]
         if (
@@ -235,8 +235,8 @@ def ground_protocol_in_question(
         ):
             sourced.source = Provenance.INFERRED
             sourced.justification = (
-                "Provenance corrigée par le garde-fou local : cette valeur diffère "
-                "du défaut système versionné."
+                "Provenance corrected by the local guardrail: this value differs from "
+                "the versioned system default."
             )
     return assign_protocol_id(
         ExperimentProtocol.model_validate(grounded.model_dump(mode="json"))
@@ -290,7 +290,7 @@ def apply_user_overrides(
         return IntValue(
             value=new,
             source=Provenance.PROVIDED,
-            justification="Valeur modifiée explicitement par l’utilisateur avant exécution.",
+            justification="Value explicitly changed by the user before execution.",
         )
 
     def changed_float(old: FloatValue, new: float) -> FloatValue:
@@ -299,7 +299,7 @@ def apply_user_overrides(
         return FloatValue(
             value=new,
             source=Provenance.PROVIDED,
-            justification="Valeur modifiée explicitement par l’utilisateur avant exécution.",
+            justification="Value explicitly changed by the user before execution.",
         )
 
     org = protocol.organization.model_copy(
@@ -327,7 +327,7 @@ def apply_user_overrides(
         ranked = StrategySet(
             value=strategies,
             source=Provenance.PROVIDED,
-            justification="Stratégies sélectionnées explicitement avant exécution.",
+            justification="Strategies explicitly selected before execution.",
         )
     interventions = protocol.interventions.model_copy(
         update={
@@ -358,17 +358,17 @@ def design_offline_protocol(question: str) -> ProtocolPackage:
     """Deterministic fixture for tests and no-key demos; never presented as Sol."""
     question = question.strip()
     if len(question) < 20:
-        raise ValueError("Décrivez le problème en au moins 20 caractères.")
+        raise ValueError("Describe the problem in at least 20 characters.")
 
     n_agents, n_agents_src, n_agents_reason = _provided_or_default(
         question,
         [r"(\d{3,4})\s*(?:personnes|collaborateurs|salariés|employees|people)"],
-        "n_agents", int, "Taille explicitement fournie dans la question.",
+        "n_agents", int, "Size explicitly provided in the question.",
     )
     n_depts, n_depts_src, n_depts_reason = _provided_or_default(
         question,
         [r"(\d{1,2})\s*(?:départements|departments|directions|units|unités)"],
-        "n_departments", int, "Nombre d’unités explicitement fourni.",
+        "n_departments", int, "Number of units explicitly provided.",
     )
     budget, budget_src, budget_reason = _provided_or_default(
         question,
@@ -376,7 +376,7 @@ def design_offline_protocol(question: str) -> ProtocolPackage:
             r"(?:budget|pilotes?|seeds?|champions?).{0,24}?(\d+(?:[.,]\d+)?)\s*%",
             r"(\d+(?:[.,]\d+)?)\s*%\s*(?:de\s*)?(?:pilotes?|seeds?|champions?)",
         ],
-        "seed_budget_fraction", float, "Budget pilote explicitement fourni.",
+        "seed_budget_fraction", float, "Pilot budget explicitly provided.",
     )
     if budget_src == Provenance.PROVIDED:
         budget /= 100.0
@@ -385,104 +385,104 @@ def design_offline_protocol(question: str) -> ProtocolPackage:
         protocol_id="draft",
         question=TextValue(
             value=question, source=Provenance.PROVIDED,
-            justification="Texte exact saisi par l’utilisateur.",
+            justification="Exact text entered by the user.",
         ),
         decision_context=TextValue(
-            value="Comparer des stratégies de lancement d’un usage coûteux de l’IA.",
+            value="Compare launch strategies for a costly organizational AI use.",
             source=Provenance.INFERRED,
-            justification="Objectif expérimental déduit de la demande d’adoption.",
+            justification="Experimental objective inferred from the adoption request.",
         ),
         organization=OrganizationSpec(
             n_agents=_int(n_agents, n_agents_src, n_agents_reason),
             n_departments=_int(n_depts, n_depts_src, n_depts_reason),
             mean_team_size=_int(
                 DEFAULTS["mean_team_size"], Provenance.SYSTEM_DEFAULT,
-                "Valeur par défaut versionnée du moteur historique.",
+                "Versioned default from the historical engine.",
             ),
             silo_strength=_float(
                 DEFAULTS["silo_strength"], Provenance.SYSTEM_DEFAULT,
-                "Structure en silos non quantifiée par l’utilisateur.",
+                "Silo structure not quantified by the user.",
             ),
         ),
         adoption=AdoptionSpec(
             behavior_definition=TextValue(
                 value=(
-                    "Usage de production coûteux de l’IA nécessitant une réorganisation "
-                    "du travail, et non une utilisation superficielle."
+                    "Costly production use of AI that requires work reorganization, "
+                    "rather than superficial usage."
                 ),
                 source=Provenance.INFERRED,
-                justification="Définition compatible avec le domaine du moteur à seuil.",
+                justification="Definition compatible with the threshold-engine domain.",
             ),
             theta_mean=_float(DEFAULTS["theta_mean"], Provenance.SYSTEM_DEFAULT,
-                              "Seuil réel non observé."),
+                              "Actual threshold not observed."),
             theta_concentration=_float(
                 DEFAULTS["theta_concentration"], Provenance.SYSTEM_DEFAULT,
-                "Hétérogénéité réelle non observée.",
+                "Actual threshold heterogeneity not observed.",
             ),
             p_innovator=_float(DEFAULTS["p_innovator"], Provenance.SYSTEM_DEFAULT,
-                               "Masse historique d’innovateurs du moteur."),
+                               "Historical innovator mass from the engine."),
             willingness=_float(DEFAULTS["willingness"], Provenance.SYSTEM_DEFAULT,
-                               "Disposition non mesurée."),
+                               "Willingness not measured."),
             able_rate=_float(DEFAULTS["able_rate"], Provenance.SYSTEM_DEFAULT,
-                             "Accès supposé complet faute d’information."),
+                             "Full access assumed because no data were provided."),
             visibility=_float(DEFAULTS["visibility"], Provenance.SYSTEM_DEFAULT,
-                              "Visibilité supposée complète faute d’information."),
+                              "Full visibility assumed because no data were provided."),
             relapse_probability=_float(
                 DEFAULTS["relapse_probability"], Provenance.SYSTEM_DEFAULT,
-                "Décroissance désactivée dans la comparaison centrale.",
+                "Relapse disabled in the base comparison.",
             ),
         ),
         interventions=InterventionSpec(
             ranked_strategies=StrategySet(
                 value=["random", "champions", "cluster", "line_manager_first"],
                 source=Provenance.INFERRED,
-                justification="Ensemble comparable validé par l’arbitrage A3.",
+                justification="Comparable strategy set approved in decision A3.",
             ),
             seed_budget_fraction=_float(budget, budget_src, budget_reason),
             broadcast_context_reference=True,
         ),
         execution=ExecutionSpec(
             replicates=_int(DEFAULTS["replicates"], Provenance.SYSTEM_DEFAULT,
-                            "Compromis interactif précision/latence."),
+                            "Interactive accuracy/latency tradeoff."),
             master_seed=_int(DEFAULTS["master_seed"], Provenance.SYSTEM_DEFAULT,
-                             "Graine publique versionnée."),
+                             "Versioned public seed."),
             max_steps=_int(DEFAULTS["max_steps"], Provenance.SYSTEM_DEFAULT,
-                           "Horizon abstrait du MVP."),
+                           "Abstract MVP horizon."),
             paired_common_organizations=True,
         ),
         sensitivity=[
             SensitivityFactor(name="theta_mean", low=0.22, high=0.38,
-                              rationale="Tester la résistance moyenne inconnue."),
+                              rationale="Test unknown mean resistance."),
             SensitivityFactor(name="theta_concentration", low=12.0, high=30.0,
-                              rationale="Tester l’hétérogénéité inconnue des seuils."),
+                              rationale="Test unknown threshold heterogeneity."),
             SensitivityFactor(name="silo_strength", low=0.60, high=0.95,
-                              rationale="Tester la connectivité entre unités."),
+                              rationale="Test connectivity across units."),
             SensitivityFactor(name="visibility", low=0.60, high=1.0,
-                              rationale="Tester l’observabilité de l’usage."),
+                              rationale="Test usage observability."),
         ],
         assumptions=[
             Assumption(
-                statement="L’adoption étudiée est un comportement coûteux à contagion complexe.",
+                statement="The modeled adoption is a costly complex-contagion behavior.",
                 source=Provenance.INFERRED,
-                impact="Une utilisation superficielle pourrait suivre une dynamique différente.",
+                impact="Superficial usage could follow a different dynamic.",
             ),
             Assumption(
-                statement="Les agents suivent les règles ready/willing/able historiques.",
+                statement="Agents follow the historical ready/willing/able rules.",
                 source=Provenance.SYSTEM_DEFAULT,
-                impact="Le modèle n’inclut ni apprentissage stratégique ni persuasion temporelle.",
+                impact="The model includes neither strategic learning nor persuasion over time.",
             ),
         ],
         missing_data=[
-            "Distribution empirique des seuils d’adoption",
-            "Structure des liens d’influence entre unités",
-            "Coût comparable communication versus accompagnement pilote",
-            "Visibilité réelle des usages de production",
+            "Empirical distribution of adoption thresholds",
+            "Influence-network structure across units",
+            "Comparable cost of communication versus pilot support",
+            "Actual visibility of production usage",
         ],
         exclusions=[
-            "Prévision d’un taux réel ou d’une date de déploiement",
-            "Personas ou comportements pilotés par LLM",
-            "Calibration sur données d’entreprise",
-            "Classement de broadcast avec les stratégies à seeds égaux",
+            "Forecasting a real adoption rate or deployment date",
+            "LLM-driven personas or behaviors",
+            "Calibration on company data",
+            "Ranking broadcast with equal-seed strategies",
         ],
     )
     protocol = assign_protocol_id(protocol)
