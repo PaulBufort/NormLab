@@ -145,9 +145,9 @@ protocole et de la fiche.
 
 Le parcours hors ligne complet, les contrats, le moteur porté, l’orchestration
 appariée, les garde-fous, la fiche et l’interface sont fonctionnels et testés. Le
-contrat GPT‑5.6 Sol est couvert par des doubles unitaires ; son smoke test réel reste
-à exécuter lorsqu’un testeur fournira temporairement sa clé de projet dans la session.
-Le propriétaire ne finance donc pas les appels publics et ne configure aucun secret
-OpenAI sur le déploiement. Le déploiement public est accessible à
-`https://normlab-build-week-2026.streamlit.app/` et son parcours fixture a été vérifié
-de bout en bout. Cette limite Sol reste visible et n’est pas présentée comme terminée.
+contrat GPT‑5.6 Sol est couvert par des doubles unitaires, un smoke test local réel et
+un smoke test public réel réussi le 19 juillet avec une clé temporaire fournie par le
+propriétaire. Aucun secret OpenAI propriétaire n’est configuré sur le déploiement.
+L’application publique anglophone est accessible à
+`https://normlab-build-week-2026.streamlit.app/` et ses parcours fixture et Sol ont
+été vérifiés de bout en bout.

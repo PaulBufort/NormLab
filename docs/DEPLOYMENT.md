@@ -8,7 +8,8 @@
 - entry point: `demo/app.py`
 - first deployed commit: `b142bd2`
 - public offline smoke test: passed on July 18, 2026
-- local live GPT‑5.6 Sol smoke test: passed on July 18, 2026 with a temporary
+- local live GPT‑5.6 Sol smoke test: passed on July 18, 2026;
+- public live GPT‑5.6 Sol smoke test: passed on July 19, 2026 with a temporary
   owner-provided key; the key was never shared with Codex or stored in the repository
 
 ## Requirements

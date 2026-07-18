@@ -63,8 +63,11 @@ la provenance reste visible avant le clic d’exécution, que l’outil appelle 
 le protocole approuvé et que la trace contient trois identifiants de réponse sans
 contenu privé. Vérifier ensuite que le bouton d’effacement retire la clé et les
 artefacts de la session.
-Le 18 juillet 2026, aucun smoke test réel n’a été exécuté dans cette tâche car aucune
-clé n’était présente ; les doubles de test couvrent le contrat API sans réseau.
+Un smoke test réel local a réussi le 18 juillet 2026. Le 19 juillet, le parcours réel
+a également réussi sur le déploiement public entièrement anglophone avec une clé
+temporaire fournie par le propriétaire : protocole, appel d’outil, moteur, fiche
+vérifiée et trois exports cohérents. La clé n’a été ni partagée avec Codex, ni stockée
+dans le dépôt ou les exports.
 
 Références officielles :
 [guide GPT‑5.6](https://developers.openai.com/api/docs/guides/model-guidance?model=gpt-5.6),

@@ -161,7 +161,7 @@ n’est pas compatible avec le 21 juillet sans réduire les fonctions centrales.
 ## Définition de terminé
 
 - [x] Un utilisateur décrit un problème d’adoption de l’IA en langage naturel.
-- [ ] Sol produit un protocole structuré, inspectable et versionné.
+- [x] Sol produit un protocole structuré, inspectable et versionné.
 - [x] Les faits utilisateur et hypothèses inférées sont visuellement distincts.
 - [x] Sol critique le protocole et expose les problèmes de comparabilité et
       d’identification.
@@ -170,11 +170,11 @@ n’est pas compatible avec le 21 juillet sans réduire les fonctions centrales.
 - [x] L’interface compare les interventions et montre leur sensibilité.
 - [x] La fiche sépare résultats, hypothèses, limites et prochaine donnée.
 - [x] Aucun résultat synthétique n’est présenté comme une prévision réelle.
-- [ ] Les tests, contrôles de schéma et smoke tests passent (tests et smoke local
-      verts ; smoke réel Sol/public encore requis).
-- [x] Une démonstration publique est accessible au jury en mode fixture à
-      `https://normlab-build-week-2026.streamlit.app/` ; activation et smoke test Sol
-      réels encore requis.
+- [x] Les tests, contrôles de schéma et smoke tests passent : 26 tests, parcours
+      hors ligne et smoke Sol réel public validés.
+- [x] Une démonstration publique entièrement anglophone est accessible au jury à
+      `https://normlab-build-week-2026.streamlit.app/` ; modes fixture et Sol réel
+      vérifiés.
 - [x] Le README et ce fichier expliquent exactement le rôle de Codex et de GPT-5.6.
 - [x] La provenance de chaque composant legacy et Build Week est vérifiable.
 
@@ -202,7 +202,8 @@ n’est pas compatible avec le 21 juillet sans réduire les fonctions centrales.
 | 2026-07-18 | Codex, tâche courante | correction du lanceur | Le lanceur local détecte désormais une ancienne instance sur le port 8501 et s’arrête avec une instruction claire au lieu de démarrer sur un autre port tout en ouvrant l’ancienne application | Port local fixé explicitement à 8501 ; aucun processus n’est arrêté automatiquement et aucune donnée n’est persistée |
 | 2026-07-18 | Propriétaire + Codex | validation Sol réelle | Parcours local complet avec clé temporaire apportée par le propriétaire : question en langage naturel, protocole Sol, approbation, appel du moteur, résultats et `DecisionCard` vérifiée | Capture du 18 juillet à 23:23:56 : comparaison à budget égal, preuves numériques, sensibilité, non-identifiabilité theta/visibilité et prochaines données visibles ; aucune clé enregistrée ou communiquée à Codex |
 | 2026-07-18 | Propriétaire + Codex | internationalisation candidature | Anglais imposé à toutes les surfaces visibles : interface Streamlit, protocole/critique Sol, fixture hors ligne, garde-fous, résultats, fiche, exports textuels, README, script vidéo et checklist de déploiement | Versions de prompt `design.v2` et `decision.v3` ; 26 tests passés ; parcours hors ligne complet vérifié visuellement sur une instance propre, sans texte français visible ; fichiers historiques de gouvernance non réécrits |
+| 2026-07-19 | Propriétaire + Codex | validation publique finale | Reboot du déploiement sur le commit anglophone puis smoke test public réel avec clé temporaire du propriétaire en fenêtre privée | URL publique visible ; protocole `nlp-3d67786cc2ec1a48`, résultat `nlr-1048b9497ef322f7`, fiche Sol `nlc-4fe0b6c7ce04766d` ; quatre budgets identiques de 30, 148 runs bruts, sensibilité et non-identifiabilité visibles ; trois exports sans motif de secret |
 
-Le dernier lot restant est le smoke test public réel de `gpt-5.6-sol` avec une clé
-temporaire fournie par le testeur, sans jamais inscrire la clé dans Git, les secrets
-du déploiement, les exports ou ce journal.
+La définition technique de terminé est satisfaite. Les travaux restants concernent
+uniquement les livrables de candidature : vidéo, page Devpost, identifiant `/feedback`
+et vérification finale des liens.

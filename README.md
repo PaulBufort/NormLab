@@ -101,10 +101,10 @@ network access nor an API key.
 [normlab-build-week-2026.streamlit.app](https://normlab-build-week-2026.streamlit.app/)
 
 Streamlit Community Cloud deploys `demo/app.py` from `codex/build-week-mvp`. The
-offline public journey and a local live GPT‑5.6 Sol journey were verified end to end
-on July 18, 2026. Without a temporary evaluator key, the interface explicitly shows
-“Offline fixture — Sol not called.” No owner-funded API secret is required on the
-platform.
+offline journey and a live GPT‑5.6 Sol journey were verified end to end on the public
+deployment by July 19, 2026. Without a temporary evaluator key, the interface
+explicitly shows “Offline fixture — Sol not called.” No owner-funded API secret is
+required on the platform.
 
 Deployment and evaluator smoke-test instructions are in
 [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
